@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Pengingat Minum Air</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 50px;
+        background: #e3f6ff;
+    }
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        margin: 10px;
+        cursor: pointer;
+    }
+    #start {
+        background: #0ea5e9;
+        color: white;
+    }
+    #stop {
+        background: #ef4444;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<h1>💧 Pengingat Minum Air</h1>
+<p>Tekan tombol di bawah untuk mulai pengingat setiap 2 jam.</p>
+
+<button id="start">Mulai Pengingat</button>
+<button id="stop">Hentikan Pengingat</button>
+
+<script>
+let intervalId;
+
+// Fungsi kirim notifikasi
+function sendNotification() {
+    new Notification("Saatnya Minum Air! 💧", {
+        body: "Minumlah segelas air untuk kesehatanmu 😊",
+        icon: "https://cdn-icons-png.flaticon.com/512/415/415733.png"
+    });
+}
+
+// Event tombol start
+document.getElementById("start").onclick = () => {
+    Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+            sendNotification(); // Kirim notifikasi pertama
+            intervalId = setInterval(sendNotification, 2 * 60 * 60 * 1000); // 2 jam
+
+            alert("Pengingat minum air diaktifkan!");
+        } else {
+            alert("Aktifkan izin notifikasi agar pengingat bekerja!");
+        }
+    });
+};
+
+// Event tombol stop
+document.getElementById("stop").onclick = () => {
+    clearInterval(intervalId);
+    alert("Pengingat dihentikan.");
+};
+</script>
+
+</body>
+</html>
